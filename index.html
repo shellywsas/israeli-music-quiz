@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>חידון המוזיקה הישראלית 🎵🇮🇱 | זהה את השיר</title>
+
+  <!-- Google Fonts: Rubik & Heebo -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- קנבס קונפטי -->
+  <canvas id="confettiCanvas"></canvas>
+
+  <div class="music-app-shell">
+
+    <!-- כותרת ראשית עליונה -->
+    <header class="music-header">
+      <div class="brand-section">
+        <div class="brand-badge">🎵</div>
+        <div class="brand-titles">
+          <h1>חידון המוזיקה הישראלית!</h1>
+          <p>שומעים משפט ומנחשים מי הזמר ומה שם השיר 🇮🇱✨</p>
+        </div>
+      </div>
+
+      <div class="header-center-controls">
+        <div id="roundCounter" class="round-tracker-pill">
+          שיר 1 מתוך 15
+        </div>
+      </div>
+
+      <button id="btnFinishShow" class="btn" style="background: #f1f5f9; color: var(--text-main); font-size: 0.95rem; padding: 0.55rem 1.25rem;">
+        🏆 סיום והכתרת מנצחת
+      </button>
+    </header>
+
+    <!-- לוח תוצאות רחב לשלי ולאמא -->
+    <div class="scoreboard-grid">
+      <!-- כרטיס שלי -->
+      <div class="player-score-panel shelly">
+        <div class="player-identity">
+          <div class="player-avatar-icon">👧</div>
+          <div class="player-names">
+            <h3>שלי</h3>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">הלהיטים של היום 💫</span>
+          </div>
+        </div>
+        <div id="scoreShelly" class="player-score-number">0</div>
+      </div>
+
+      <!-- כרטיס אמא -->
+      <div class="player-score-panel mom">
+        <div class="player-identity">
+          <div class="player-avatar-icon">👩</div>
+          <div class="player-names">
+            <h3>אמא</h3>
+            <span style="font-size: 0.85rem; color: var(--text-muted);">קלאסיקות שנות ה-70 וה-90 👑</span>
+          </div>
+        </div>
+        <div id="scoreMom" class="player-score-number">0</div>
+      </div>
+    </div>
+
+    <!-- סרגל סינון עשורים -->
+    <div class="decade-filter-strip">
+      <button class="decade-btn active" data-decade="all">✨ כל העשורים (מעורבב)</button>
+      <button class="decade-btn" data-decade="70s-80s">🕰️ שנות ה-70 וה-80</button>
+      <button class="decade-btn" data-decade="90s">🎸 שנות ה-90</button>
+      <button class="decade-btn" data-decade="2000s">💿 שנות ה-2000</button>
+      <button class="decade-btn" data-decade="current">📱 העשור האחרון והיום</button>
+    </div>
+
+    <!-- במת החידון המרכזית (Full Screen Stage) -->
+    <main class="main-music-stage">
+      <div class="stage-top-chips">
+        <span id="decadeTagChip" class="decade-tag-chip">עשור</span>
+        <span class="challenge-tag-chip">זהו את השיר והמבצע!</span>
+      </div>
+
+      <div class="lyrics-prompt-container">
+        <!-- כפתור הקראה קולית חיה בעברית -->
+        <button id="btnSpeechTrigger" class="btn-speech-trigger">
+          🔊 השמע את המשפט בקול רם!
+        </button>
+
+        <div id="lyricsQuoteText" class="lyrics-quote-text">
+          "טוען שיר..."
+        </div>
+      </div>
+
+      <div id="hintPill" class="hint-pill-box">
+        רמז יופיע כאן
+      </div>
+
+      <!-- תיבת התשובה לאחר חשיפה -->
+      <div id="revealedSongBox" class="revealed-song-box">
+        <div id="revealedSongTitle" class="revealed-song-title">שם השיר: </div>
+        <div id="revealedArtistName" class="revealed-artist-name">ביצוע מקורי: </div>
+      </div>
+
+      <!-- כפתור חשיפת תשובה -->
+      <button id="btnRevealSong" class="btn-reveal-song">
+        👁️ חשוף את שם השיר והמבצע!
+      </button>
+
+      <!-- בקרת ניקוד לאחר החשיפה -->
+      <div id="scoringGridWrapper" class="scoring-grid-wrapper">
+        <div class="scoring-grid-prompt">מי זיהתה ראשונה? לחצו כדי לחלק נקודה:</div>
+        <div class="scoring-buttons-row">
+          <button id="btnScoreShelly" class="btn-point shelly">
+            👧 שלי צדקה (+1)
+          </button>
+          <button id="btnScoreMom" class="btn-point mom">
+            👩 אמא צדקה (+1)
+          </button>
+          <button id="btnScoreBoth" class="btn-point both">
+            👯‍♀️ שתינו צדקנו! (+1 לכל אחת)
+          </button>
+          <button id="btnScoreNone" class="btn-point none">
+            ⏭️ אף אחת לא ידעה (הבא)
+          </button>
+        </div>
+      </div>
+    </main>
+
+  </div>
+
+  <!-- ==================== מסך סיום חגיגי והכתרת מלכת המוזיקה ==================== -->
+  <div id="victoryOverlay" class="victory-modal-overlay">
+    <div class="victory-card-box">
+      <div class="victory-crown-icon">👑</div>
+      <h2 id="vicWinnerHeading" class="victory-winner-heading">שלי היא מלכת המוזיקה הישראלית!</h2>
+
+      <div class="victory-scores-row">
+        <div class="victory-score-item shelly">
+          <h4>שלי 👧</h4>
+          <span id="vicShellyScore">0 נק׳</span>
+        </div>
+        <div class="victory-score-item mom">
+          <h4>אמא 👩</h4>
+          <span id="vicMomScore">0 נק׳</span>
+        </div>
+      </div>
+
+      <div id="vicTaskBanner" class="victory-task-banner">
+        🎤 משימת המפסידה: לשיר פזמון שלם של שלמה ארצי או חנן בן ארי בקול רם בסלון!
+      </div>
+
+      <button id="btnRematch" class="btn-reveal-song" style="font-size: 1.15rem; padding: 0.85rem 2.5rem;">
+        🔄 משחק חוזר – בואי נראה מי תנצח הפעם!
+      </button>
+    </div>
+  </div>
+
+  <!-- סקריפטים -->
+  <script src="questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
